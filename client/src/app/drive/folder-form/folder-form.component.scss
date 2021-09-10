@@ -1,0 +1,17 @@
+.modal-wrap__footer {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -24px;
+    width: calc(100% + 48px);
+    height: 1px;
+    background-color: #454545;
+  }
+}

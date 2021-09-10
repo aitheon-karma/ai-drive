@@ -1,0 +1,48 @@
+<div bsModal #signaturesModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1052;" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-wrap modal-content">
+      <div class="modal-wrap__header">
+        <h4 class="modal-title pull-left">Signatures</h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <fl-signature-creator (back)="onSignCreatorBack()" (saved)="onSignSaved($event)" *ngIf="state === 'SIGNATURE_CREATOR'"></fl-signature-creator>
+
+      <div *ngIf="state === 'SIGN_LIST'">
+        <div class="modal-wrap__body">
+          <ai-loading *ngIf="isLoaging"></ai-loading>
+          <!-- <p class="text-muted static-height">
+            <span *ngIf="signatures?.length > 0 && !selectedSignature && !isLoaging"> Click to select a signature and continue</span>
+          </p> -->
+          <p class="text-muted" *ngIf="signatures?.length === 0">Create a new signature or upload existing one with buttons below</p>
+          <div class="row">
+            <div class="col-6" *ngFor="let signature of signatures">
+                <!-- (click)="select(signature)"  -->
+                <div class="card signature-card mb-4" [class.selected]="selectedSignature?._id === signature._id">
+                  <div class="card-body signature-item">
+                    <img draggable="false"  [src]="signature.url" alt="">
+                  </div>
+                  <div class="selected-overlay"></div>
+                  <button class="btn btn-danger btn-remove btn-sm" *ngIf="!signature.deleting" type="button" [swal]="{ title: 'Delete signature?', text: 'This cannot be undone.', type: 'warning', showCancelButton: true, confirmButtonText: 'Yes, delete it'}"
+                  (confirm)="remove(signature)" ><i class="fa fa-trash"></i></button>
+                  <ai-loading *ngIf="signature.deleting" class="loading"></ai-loading>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-wrap__footer">
+            <button class="button button--medium button--outlined mr--16" type="button" (click)="showPad()">Create signature</button>
+            <div class="fileContainer-sign button button--medium button--outlined">
+                <input type="file" ng2FileSelect [uploader]="uploader" accept="image/png" />
+                Upload signature
+              </div>
+            <!-- <button class="btn btn-primary" [disabled]="!selectedSignature" (click)="continue()">Continue</button> -->
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

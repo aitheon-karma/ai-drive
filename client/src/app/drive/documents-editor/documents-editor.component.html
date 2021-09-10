@@ -1,0 +1,92 @@
+<div bsModal #documentEditModal="bs-modal" id="documentEditModal" class="modal fade " [config]="{ backdrop: 'static' }" (onHidden)="onEditHidden()"
+  tabindex="-1" role="dialog" aria-labelledby="documentEditModal" aria-hidden="true">
+  <div class="modal-dialog pdf-viewer-modal modal-lg">
+    <div class="modal-wrap modal-content">
+      <div class="modal-wrap__header">
+        <h4 class="modal-title pull-left">Documents editor</h4>
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <button type="button" class="close pull-right" [disabled]="signing" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <div class="editor">
+
+          <div class="pdf-container" *ngIf="url">
+            <div class="pdf-controls">
+              <button class="btn btn-link btn-sm" type="button" (click)="pdfViewer?.prevPage()"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+              <span class="page-info">Page:
+                <span id="page_num">{{ pdfViewer?.pageNumber }}</span> /
+                <span id="page_count">{{ pdfViewer?.pagesCount }}</span>
+              </span>
+              <button class="btn btn-link btn-sm " type="button" (click)="pdfViewer?.nextPage()"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+            </div>
+            <div class="inner-container" [dropZones]="['demo1']" dnd-droppable (onDropSuccess)="onDragEnd($event)" id="PdfContainer"#PdfContainer>
+              <fl-pdf-viewer #pdfViewer  [url]="url" (pdfLoaded)="pdfLoaded()"></fl-pdf-viewer>
+              <div *ngFor="let control of pageControls" [ngMyDraggable]="control"
+                [blockBounds]="true" [bounds]="PdfContainer" (stopped)="positionChanged(control, $event)" [class.signature-doc-wrapper]="control.type === 'SIGNATURE'" class="document-control draggable-control">
+                <!-- <span *ngIf="control.type === 'SIGN_HERE'">DocuSign</span> -->
+                <span *ngIf="control.type === 'FULL_NAME'">Full Name</span>
+                <span *ngIf="control.type === 'DATE_SIGNED'">Date</span>
+                <img class="signature-doc" *ngIf="control.type === 'SIGNATURE'" draggable="false" [src]="'/drive/api/signatures/' + control.signature" alt="">
+
+                <button class="btn btn-danger btn-remove btn-sm" type="button" (click)="removeControl(control)"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="sign-controls">
+
+            <h6 class="h4 mt-2 mb-3">Standard Fields</h6>
+            <!-- <div class="document-control d-control" dnd-draggable [dropZones]="['demo1']" [dragImage]="myDragImage" (onDragStart)="onDragStart($event)"
+              [dragData]="{type: 'SIGN_HERE'}" [dragEnabled]="true">DocuSign</div>  -->
+            <!--  -->
+            <div class="document-control d-control button button--medium button--contained" draggable="false" dnd-draggable [dropZones]="['demo1']" [dragImage]="myDragImage" (onDragStart)="onDragStart($event)"
+              [dragData]="{type: 'FULL_NAME'}" [dragEnabled]="true">Full Name</div>
+              <!-- <label for="">Docusign only</label> -->
+            <!--  -->
+            <div class="document-control d-control button button--medium button--contained" draggable="false" dnd-draggable [dropZones]="['demo1']" [dragImage]="myDragImage" (onDragStart)="onDragStart($event)"
+              [dragData]="{type: 'DATE_SIGNED'}" [dragEnabled]="true">Date Signed</div>
+              <!-- <label for="">Docusign only</label> -->
+            <!--  -->
+            <!-- <fl-signature-selector></fl-signature-selector> -->
+            <div class="signature-selector">
+              <h6 class="h4 mt-5 mb-3">Signatures</h6>
+              <ai-loading *ngIf="isLoagingSignatures"></ai-loading>
+              <div class="card signature-card mb-2" *ngFor="let signature of signatures">
+                <div class="card-body signature-item" dnd-draggable [dropZones]="['demo1']" [dragData]="{type: 'SIGNATURE', signature: signature._id }">
+                  <img draggable="false" [src]="signature.url" alt="">
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="button button--medium button--contained mb-5" (click)="showSigns()">Signature manager</button>
+
+            <button type="button"  class="d-control button button--medium button--contained" [disabled]="signing" (click)="finish()">
+              <span *ngIf="!signing">
+              Sign
+              </span>
+              <ai-loading *ngIf="signing" class="sm inline white"></ai-loading>
+            </button>
+            <button type="button"  class="button button--medium button--outlined" [disabled]="signing" (click)="hide()">Close</button>
+
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<context-menu #documentControlMenu>
+  <ng-template contextMenuItem (execute)="removeControl($event.item)">
+    Remove
+  </ng-template>
+</context-menu>
+
+<fl-signatures #signaturesManager (closed)="onSignaturesManagerClosed($event)" (selected)="onSignatureSelected($event)"></fl-signatures>
+
+<bs-modal-backdrop class="modal-backdrop fade in show secondModal-index" *ngIf="secondModalOpen" style="z-index:1051"></bs-modal-backdrop>

@@ -1,0 +1,37 @@
+<div class="services-list">
+    <div class="service"
+         *ngFor="let service of services">
+        <div class="service-name"
+             (click)="toggleService(service, $event)">
+            <i class="fa caret-icon"
+               [class.fa-caret-right]="!service.opened"
+               [class.fa-caret-down]="service.opened"
+               aria-hidden="true"></i>
+            <i class="{{ service.iconClass || 'fa fa-server' }} service-icon"></i>
+            <span>{{ service.name }}</span>
+            <ai-loading class="sm inline pl-2 service-loading"
+                        *ngIf="service.isLoading"></ai-loading>
+        </div>
+        <div class="service-inner"
+             *ngIf="service.opened && !service.isLoading">
+            <div class="folder"
+                 *ngFor="let key of service.keys">
+                <div class="folder-name"
+                     (click)="onServiceKeyClick($event, service, key)">
+                    <span class="services-list__shared-folder"></span>
+                    <span class="services-list__folder-label">{{ key.name }}</span>
+                </div>
+            </div>
+            <div class="folder"
+                 *ngFor="let folder of service.folders">
+                <div class="folder-name"
+                     (click)="onServiceFolderClick($event, service, folder)">
+                    <span class="icon icon--closed-folder"
+                          [class.icon--open-folder]="openedService === service._id && folder._id === selectedServiceKey"
+                    ></span>
+                    <span class="services-list__folder-label">{{ folder.dynamicName }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

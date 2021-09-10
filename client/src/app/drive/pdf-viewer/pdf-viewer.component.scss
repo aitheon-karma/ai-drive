@@ -1,0 +1,54 @@
+.signin-here {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #000;
+    width: 100px;
+    height: 30px;
+}
+
+.effect6
+{
+  	position:relative;
+        box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.effect6:before, .effect6:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:50%;
+    bottom:0;
+    left:10px;
+    right:10px;
+    border-radius:100px / 10px;
+}
+
+.shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+
+.canvas-holder {
+    height: 100%;
+    .ai-loading {
+        display: none;
+        position: absolute;
+        left: 50%;
+        margin-left: -40px;
+    }
+    &.loading {
+        .effect6 {
+            box-shadow: none;
+        }
+        .ai-loading {
+            display: block;
+        }
+    }
+}

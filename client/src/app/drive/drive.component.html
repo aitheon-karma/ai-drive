@@ -1,0 +1,191 @@
+<div class="card drive-card" [class.anon]="!loggedIn">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-3 col-tree">
+        <!-- <button class="btn btn-primary btn-sm">Upload</button> -->
+        <div class="fileContainer button button--medium button--contained" [class.disabled]="uploadDisabled" *ngIf="driveUploader">
+          <input type="file" ng2FileSelect [uploader]="driveUploader?.uploader" [disabled]="uploadDisabled" multiple />
+          Upload
+        </div>
+      </div>
+      <div class="col-9 d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item breadcrumb-item-hover" *ngIf="!selectedService && !isShareView" (click)="onDriveSelected()">
+              My Drive
+            </li>
+            <li class="breadcrumb-item breadcrumb-item-hover" *ngIf="!selectedService && isShareView" (click)="onSharedWithMeSelected()">
+              Shared
+            </li>
+            <li class="breadcrumb-item" *ngIf="selectedService">
+              System folders
+            </li>
+            <li class="breadcrumb-item" *ngIf="selectedService">{{ selectedService.name }}</li>
+            <li class="breadcrumb-item" *ngIf="!isLoading && selectedService && selectedServiceFolder">{{ selectedServiceFolder.name }}</li>
+            <li class="breadcrumb-item breadcrumb-item-hover" *ngFor="let breadcrumb of breadcrumbs" (click)="selectBreadcrumb(breadcrumb)">
+              {{ breadcrumb.name }}
+            </li>
+            <li class="breadcrumb-item-loading"><ai-loading *ngIf="isLoading" class="inline sm "></ai-loading></li>
+          </ol>
+
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-3 col-tree">
+        <!--  My Drive -->
+        <div class="drive-section" *ngIf="currentUser">
+          <h6 class="drive-header" (click)="toggleMyDrive()" (click)="onDriveSelected()" [contextMenu]="foldersMenu">
+            <i class="fa caret-icon" (click)="toggleMyDrive()" [class.fa-caret-right]="!myDriveOpened" [class.fa-caret-down]="myDriveOpened" aria-hidden="true"></i>
+            <i class="fa drive-icon fa-hdd-o"></i> {{ driveHeader }}
+            <!-- <ai-loading *ngIf="isFoldersLoading" class="inline sm drive-loading"></ai-loading> -->
+          </h6>
+          <div class="drive-section__body" *ngIf="myDriveOpened">
+            <ai-folders-list
+              [folders]="folders"
+              [inline]="false"
+              [selectedContextFolder]="selectedContextFolder"
+              [foldersMenu]="foldersMenu"
+              [selectedFolder]="selectedFolder"
+              (folderChildrenLoaded)="onFolderChildrenLoaded($event)"
+              (folderSelected)="onFolderSelected($event)">
+            </ai-folders-list>
+          </div>
+        </div>
+        <!-- Shared -->
+        <div class="drive-section mt-2" *ngIf="!hideShared">
+            <h6 class="drive-header " (click)="toggleSharedWithMe()" (click)="onSharedWithMeSelected()">
+                <i class="fa caret-icon" (click)="toggleSharedWithMe()" [class.fa-caret-right]="!shareWithMeOpened" [class.fa-caret-down]="shareWithMeOpened" aria-hidden="true"></i>
+                <i class="fa drive-icon fa-users"></i>Shared with me <small *ngIf="organization">({{ organization.name }})</small>
+              </h6>
+          <div class="drive-section__body" *ngIf="shareWithMeOpened">
+            <ai-folders-list
+              [folders]="sharedFolders"
+              [isShareView]="true"
+              [selectedContextFolder]="selectedContextFolder"
+              [foldersMenu]="sharedFoldersMenu"
+              [selectedFolder]="selectedFolder"
+              (folderChildrenLoaded)="onFolderChildrenLoaded($event)"
+              (folderSelected)="onFolderSelected($event)">
+            </ai-folders-list>
+          </div>
+        </div>
+        <!-- System folders -->
+        <div class="drive-section mt-2" *ngIf="currentUser">
+          <h6 class="drive-header" (click)="toggleSystemFolders()">
+            <i class="fa caret-icon" (click)="toggleSystemFolders()" [class.fa-caret-right]="!systemFoldersOpened" [class.fa-caret-down]="systemFoldersOpened" aria-hidden="true"></i>
+            <i class="fa drive-icon fa-cogs" aria-hidden="true"></i>System folders
+          </h6>
+          <div class="drive-section__body" *ngIf="systemFoldersOpened">
+            <ai-services-list [selectedServiceKey]="selectedServiceKey" [services]="services" (selectService)="onSelectService($event)"></ai-services-list>
+          </div>
+        </div>
+        <!-- End -->
+        <fl-storage-used [settings]="settings" *ngIf="currentUser && settings"></fl-storage-used>
+      </div>
+      <div class="col-9 col-documents position-relative" [contextMenu]="foldersCreateMenu" flDriveUploader [disabled]="uploadDisabled">
+        <fl-drive-uploader #driveUploader [folder]="selectedFolder?._id" [disabled]="uploadDisabled" (successItem)="onSuccessItem($event)"></fl-drive-uploader>
+        <div class="row list-header">
+          <div class="col-6"><small class="bold h-document h-name">Name</small></div>
+          <div class="col-2"><small class="bold h-document">Created By</small></div>
+          <div class="col-2"><small class="bold h-document">Created At</small></div>
+          <div class="col-2"><small class="bold h-document">Size</small></div>
+        </div>
+        <div class="viewer-wrapper">
+          <ng-container *ngIf="!isLoading && (inlineFolders ?.length || documents ?.length); else emptyBlock">
+            <ai-folders-list
+                    [folders]="inlineFolders"
+                    [currentUser]="currentUser"
+                    [inline]="true"
+                    [selectedContextFolder]="selectedContextFolder"
+                    [foldersMenu]="foldersMenu"
+                    [selectedFolder]="selectedFolder"
+                    (folderOpened)="onFolderOpened($event)"
+                    (folderChildrenLoaded)="onFolderChildrenLoaded($event)"
+                    (folderSelected)="onFolderSelected($event)">
+            </ai-folders-list>
+            <ai-documents-list
+                    [currentUser]="currentUser"
+                    #documentsList
+                    [shareForm]="shareForm"
+                    [disableShare]="disableShare"
+                    [disableEdit]="documentsReadonly"
+                    [documents]="documents">
+            </ai-documents-list>
+          </ng-container>
+          <ng-template #emptyBlock>
+                      <div class="drive__empty">
+                        <span *ngIf="!isLoading && selectedService">There is nothing here yet</span>
+                        <ai-loading *ngIf="isLoading"></ai-loading>
+                      </div>
+          </ng-template>
+        <div class="drop" *ngIf="inlineFolders?.length === 0 && documents?.length === 0 && !isLoading && !selectedService && !isShareView">
+          <div class="cont" style="color: rgb(142, 153, 165);">
+            <i class="fa fa-cloud-upload"></i>
+            <div class="tit">
+              Drag &amp; Drop
+            </div>
+            <div class="desc">
+              your file here or use the "Upload" button.
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<context-menu  #foldersMenu (close)="onFolderContextClose($event.item)" (open)="onFolderContextMenu($event.item, $event)">
+  <ng-template contextMenuItem [visible]="allowFolderEdits" (execute)="showEditFolder($event.item, true)">
+    Create Folder
+  </ng-template>
+  <ng-template contextMenuItem [visible]="allowFolderEdits" divider="true"></ng-template>
+  <ng-template  contextMenuItem [visible]="allowFolderEdits" (execute)="showFolderShare($event.item)">
+    Share
+  </ng-template>
+  <ng-template contextMenuItem [visible]="allowFolderEdits" divider="true"></ng-template>
+  <ng-template contextMenuItem [visible]="allowFolderEdits" (execute)="showEditFolder($event.item, false)">
+    Rename
+  </ng-template>
+  <ng-template contextMenuItem [visible]="allowFolderEdits" (execute)="showDeleteFolder($event.item, false)">
+    Delete
+  </ng-template>
+  <ng-template contextMenuItem [visible]="folderNoOptions" [enabled]="false">
+    No options
+  </ng-template>
+</context-menu>
+
+
+<context-menu #foldersCreateMenu [disabled]="isShareView || selectedService">
+  <ng-template contextMenuItem [visible]="allowFolderEdits" (execute)="showEditFolder(selectedFolder, true)">
+    Create Folder
+  </ng-template>
+  <ng-template contextMenuItem [visible]="folderNoOptions" [enabled]="false">
+    No options
+  </ng-template>
+</context-menu>
+
+
+<context-menu #sharedFoldersMenu>
+  <ng-template contextMenuItem [enabled]="false">
+    No options
+  </ng-template>
+</context-menu>
+
+<ng-template #folderModal>
+  <div class="modal-wrap__header">
+    <h4 class="modal-title pull-left">Folder</h4>
+    <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="onFolderCanceled()"></button>
+  </div>
+  <div class="modal-wrap__body" style="border-bottom: none; overflow: hidden; padding-bottom: 10px;">
+    <fl-folder-form [folder]="editFolder" (canceled)="onFolderCanceled()" (saved)="onFolderSaved($event)"></fl-folder-form>
+  </div>
+</ng-template>
+
+<fl-share-form #shareForm (saved)="onShareSaved($event)"></fl-share-form>
+
+<fl-generic-confirm #genericConfirm></fl-generic-confirm>

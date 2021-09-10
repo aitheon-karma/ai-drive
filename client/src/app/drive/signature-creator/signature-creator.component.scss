@@ -1,0 +1,24 @@
+.sign-container {
+    border: 3px dashed rgba(160, 159, 159, 0.349);
+    width: 500px;
+    height: 250px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.sign-hint {
+    color: rgba(160, 159, 159, 0.3);
+    font-size: 32px;
+    text-align: center;
+    line-height: 250px;
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+}
+
+canvas {
+    position: absolute;
+    z-index: 2;
+}
+

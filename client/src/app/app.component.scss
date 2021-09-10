@@ -1,0 +1,134 @@
+.breadcrumb {
+    background: transparent;
+    padding: 0.25rem 1.3rem;
+    font-size: 13px;
+    width: 100%;
+    max-width: 1748px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.nav-breadcrumb {
+    position: absolute;
+    top: 56px;
+    width: 100%;
+    background: #e0e0e0;
+}
+
+.nav {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-width: 1748px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.breadcrumb-item.active{
+    outline: none;
+    cursor: default;
+}
+
+.nav > li > a {
+    position: relative;
+}
+.nav > li > a:before {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #3197EE;
+    transform:  scaleX(0);
+    content: '';
+    position: absolute;
+    transition: transform .5s ease;
+}
+
+.nav > li >  a:after {
+    content: '';
+    position: absolute;
+    transition: transform .5s ease;
+}
+
+.nav > li >  a:hover{
+    color: #3197EE;
+}
+.nav > li >  a:hover:before {
+    transform:  scaleX(1);
+}
+
+
+.navbar-toggler {
+   display: none;
+   background: transparent;
+   margin-top: 10px;
+   margin-left: 15px;
+   margin-bottom: 10px;
+   padding: 0;
+   border: none;
+}
+
+.nav-brand {
+    display: none;
+}
+
+.sidebar__backdrop {
+    background: rgba(0, 0, 0, 0.75);;
+    height: 100%;
+    left: 0;
+    pointer-events: auto;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1031;
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    .offcanvas-collapse .nav{
+      position: fixed;
+      top: 0px; /* Height of navbar */
+      bottom: 0;
+      left: 0;
+      width: 300px;
+      padding-right: 1rem;
+      padding-left: 2rem;
+      overflow-y: auto;
+      background-color: #fff;
+      transition: -webkit-transform .3s ease-in-out;
+      transition: transform .3s ease-in-out;
+      transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+      z-index: 1032;
+      margin: 0;
+    }
+    .offcanvas-collapse.open .nav{
+      -webkit-transform: translateX(-1rem);
+      transform: translateX(-1rem); /* Account for horizontal padding on navbar */
+    }
+    .open {
+        .sidebar__backdrop {
+            display: block;
+        }
+    }
+    .nav {
+        flex-direction: column;
+    }
+    .navbar-toggler {
+        display: block;
+    }
+
+    .nav-brand {
+        display: block;
+    }
+
+    .navbar-brand img{
+        max-width: 100%;
+        padding: 1rem;
+    }
+    
+}
+
+  

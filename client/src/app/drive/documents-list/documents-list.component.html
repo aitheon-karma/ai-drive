@@ -1,0 +1,67 @@
+<div class="documents-list">
+  <!-- <div class="row">
+    <div class="col-6"><small class="bold h-document h-name">Name</small></div>
+    <div class="col-2"><small class="bold h-document">Created By</small></div>
+    <div class="col-2"><small class="bold h-document">Created At</small></div>
+    <div class="col-2"><small class="bold h-document">Size</small></div>
+  </div> -->
+  <!-- <span *ngIf="documents?.length === 0" class="no-value">No documents</span> -->
+  <div [class.context-selected]="contextMenuDocument?._id === document._id"
+       [class.disabled]="document.disabled"
+       [class.deleting]="document.deleting"
+       class="document" [contextMenu]="documentsMenu" [contextMenuSubject]="document" (click)="openDocument(document)" *ngFor="let document of documents">
+    <div class="row list-body">
+      <div class="col-6">
+        <div class="document-name">
+          <!--
+          <div class="checkbox">
+            <input class="checkbox__input" type="checkbox" tabindex="1">
+          </div>
+          -->
+            <i class="fa document-icon" [flDocumentIcon]="document.contentType"></i><span>{{ document.name }}</span>
+            <i class="fa fa-users is-shared" tooltip="Shared" container="body" [delay]="500" *ngIf="document.isShared"></i>
+        </div>
+      </div>
+      <div class="col-2">
+        <small *ngIf="currentUser?._id !== document.createdBy._id">{{ document.createdBy.profile.firstName }} {{ document.createdBy.profile.lastName }}</small>
+        <small *ngIf="currentUser?._id === document.createdBy._id ">me</small>
+      </div>
+      <div class="col-2">
+        <small>{{ document.createdAt | momentFormat:'MM/DD/YYYY h:mm a'}}</small>
+      </div>
+      <div class="col-2">
+        <small>{{ document.size | fileSize:'0' }}</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<context-menu #documentsMenu (close)="onDocumentContextClose()" (open)="onDocumentContextMenu($event.item)" >
+  <ng-template contextMenuItem (execute)="openDocument($event.item)">
+    Preview
+  </ng-template>
+  <ng-template contextMenuItem (execute)="download($event.item)">
+    Download
+  </ng-template>
+  <ng-template [visible]="isEditablePdf || !disableEdit" contextMenuItem divider="true"></ng-template>
+  <ng-template contextMenuItem [visible]="isEditablePdf || !disableEdit" (execute)="showSign($event.item)">
+      Sign
+  </ng-template>
+  <ng-template [visible]="!disableShare" contextMenuItem divider="true"></ng-template>
+  <ng-template [visible]="!disableShare" contextMenuItem (execute)="showShare($event.item)">
+    Share
+  </ng-template>
+  <ng-template contextMenuItem [visible]="!disableEdit" divider="true"></ng-template>
+  <ng-template contextMenuItem [visible]="!disableEdit" (execute)="showRename($event.item)">
+    Rename
+  </ng-template>
+  <ng-template contextMenuItem [visible]="!disableEdit" (execute)="showDelete($event.item)">
+    Delete
+  </ng-template>
+</context-menu>
+
+<fl-generic-confirm #genericConfirm></fl-generic-confirm>
+
+<fl-document-form #documentForm (saved)="onDocumentSaved($event)"></fl-document-form>
+<fl-document-viewer #documentViewer></fl-document-viewer>
+<fl-documents-editor #documentsEditor (documentCreated)="onDocumentCreated($event)"></fl-documents-editor>

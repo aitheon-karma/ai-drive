@@ -1,0 +1,83 @@
+<div class="folders-list"
+     [class.inline-view]="inline">
+    <div class="folder"
+         [class.context-selected]="selectedContextFolder?._id === folder._id && folder?.inlineContextSelected === inline"
+         [class.selected]="selectedFolder?._id === folder._id || inlineSelected?._id === folder._id"
+         [class.folder-inline]="inline"
+         [contextMenu]="foldersMenu"
+         [contextMenuSubject]="folder" *ngFor="let folder of folders">
+        <div *ngIf="!folder.deleted">
+            <!-- TREE  -->
+            <div *ngIf="!inline"
+                 class="folder-name"
+                 (click)="toggleFolder(folder, false, $event)"
+                 (click)="selectFolder({ folder: folder, breadcrumbs: [folder] })">
+                <i class="fa caret-icon"
+                   (click)="toggleFolder(folder, true, $event)"
+                   [class.fa-caret-right]="!folder.opened"
+                   [class.fa-caret-down]="folder.opened" aria-hidden="true"></i>
+                <span class="icon icon--closed-folder"
+                      [class.icon--open-folder]="folder.opened"></span>
+                <i class="fa fa-user is-shared"
+                   *ngIf="folder.isShared"
+                   [delay]="500"
+                   tooltip="Shared"></i>
+                <span>{{ folder.name }}</span>
+            </div>
+            <!-- /TREE  -->
+            <!-- INLINE  -->
+            <div class="row folder-row"
+                 *ngIf="inline"
+                 (click)="toggleFolder(folder, false, $event)"
+                 (click)="inlineSelectFolder({ folder: folder, breadcrumbs: [folder] })">
+                <div class="col-6">
+                    <div class="folder-name folder-name-inline">
+                        <!--
+                        <div class="checkbox">
+                          <input class="checkbox__input" type="checkbox" tabindex="1">
+                        </div>
+                        -->
+                        <span class="icon icon--closed-folder"></span>
+                        <i class="fa fa-user is-shared"
+                           *ngIf="folder.isShared"
+                           [delay]="500"
+                           container="body"
+                           tooltip="Shared"></i>
+                        <span>{{ folder.name }}</span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <small class="sm-center"
+                           *ngIf="currentUser?._id !== folder.createdBy._id">
+                        {{folder.createdBy.profile.firstName }} {{ folder.createdBy.profile.lastName }}
+                    </small>
+                    <small class="sm-center"
+                           *ngIf="currentUser?._id === folder.createdBy._id ">me</small>
+                </div>
+                <div class="col-2">
+                    <small class="sm-center">{{ folder.createdAt | momentFormat:'MM/DD/YYYY h:mm a'}}</small>
+                    <small class="sm-center">{{ folder.createdAt | momentFormat:'MM/DD/YYYY h:mm a'}}</small>
+                </div>
+                <div class="col-2 ">
+                    <small class="sm-center">&mdash;</small>
+                </div>
+            </div>
+            <!-- INLINE  -->
+            <div class="folder-inner"
+                 *ngIf="folder.opened && !folder.isLoading && !inline">
+                <ai-folders-list [selectedFolder]="selectedFolder"
+                                 [inline]="inline"
+                                 [isShareView]="isShareView"
+                                 [selectedContextFolder]="selectedContextFolder"
+                                 [foldersMenu]="foldersMenu"
+                                 [currentUser]="currentUser"
+                                 [parent]="folder"
+                                 [folders]="folder.children"
+                                 (folderChildrenLoaded)="onFolderChildrenLoadedHandler($event)"
+                                 (folderSelected)="onSelectFolderHandler($event)"
+                                 (folderOpened)="onFolderOpenedHandler($event)">
+                </ai-folders-list>
+            </div>
+        </div>
+    </div>
+</div>

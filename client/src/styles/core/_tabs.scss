@@ -1,0 +1,13 @@
+.tabs-vertical {
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

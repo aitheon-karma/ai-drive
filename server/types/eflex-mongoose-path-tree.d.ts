@@ -1,0 +1,1 @@
+declare module 'eflex-mongoose-path-tree';

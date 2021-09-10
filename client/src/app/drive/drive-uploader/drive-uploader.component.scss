@@ -1,0 +1,105 @@
+
+.drop-zone {
+  top: 0;
+  bottom: 10px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(24, 24, 24, 0.58);
+  position: absolute;
+  z-index: 99;
+  border: 2px dashed rgb(220, 188, 101);
+  user-select: none;
+}
+
+h1 {
+  color: rgb(220, 188, 101);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 32px;
+}
+
+.icon--size-40px {
+  width: 32px;
+  height: 32px;
+  max-height: 32px;
+  font-size: 32px;
+  line-height: 32px;
+
+  &::after {
+    content: "";
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.drive-uploader-results {
+  width: 320px;
+  max-width: 100%;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483648;
+  box-shadow: 0 2px 6px 2px #1a1a1a;
+
+  .results-header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 2px 2px 0 0;
+    font-weight: 600;
+  }
+
+  .documents {
+    max-height: 352px;
+    overflow-y: auto;
+
+    .drive-document {
+      width: 100%;
+      padding: 8px 16px;
+      background: #202020;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drive-document:nth-child(odd) { background: #2b2b2b; }
+
+    .document-name {
+      margin-right: auto;
+      width: 220px;
+
+      span {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        line-height: 16px;
+        display: block;
+      }
+    }
+
+    .document-icon {
+      position: relative;
+      margin-right: 8px;
+
+      .file-extension {
+        position: absolute;
+        color: rgb(220, 188, 101);
+        font-size: 10px;
+        top: 9px;
+        left: 2px;
+      }
+    }
+
+    .document-status-icon {
+      margin-left: 8px;
+    }
+  }
+}

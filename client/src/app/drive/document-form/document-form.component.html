@@ -1,0 +1,38 @@
+<div bsModal #formModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-wrap modal-content">
+      <div class="modal-wrap__header">
+        <h4 class="modal-title pull-left">Rename</h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <form *ngIf="documentForm" novalidate [formGroup]="documentForm" novalidate (ngSubmit)="onSubmit()">
+        <div class="modal-wrap__body">
+          <div class="form-group mb--0">
+            <label for="show">Name</label>
+            <!-- <input type="text" placeholder="Enter name" class="form-control" formControlName="name"> -->
+
+            <div class="input-wrap input-wrap--contained input-wrap--small">
+              <input class="input-wrap__input" type="text" autocomplete="off" placeholder="Enter name" formControlName="name" #renameInput>
+            </div>
+
+            <small *ngIf="submitted && documentForm.get('name').hasError('required')" class="text-danger">
+              Name is required
+            </small>
+          </div>
+          <!--  -->
+        </div>
+        <div class="modal-wrap__footer">
+          <button class="ripple-effect button button--ghost button--medium mr--16" (click)="cancel()" type="button">Cancel</button>
+          <button class="button button--contained button--medium ripple-effect"
+                  [disabled]="renameInput.value === '' || renameInput.value === prevValue"
+                  type="submit">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

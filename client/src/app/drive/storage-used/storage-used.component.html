@@ -1,0 +1,7 @@
+<div class="settings" >
+  <div class="settings-inner" *ngIf="settings">
+    {{ settings.space.used | fileSize:'0' }} used
+    <!-- {{ settings.space.used | fileSize:'0' }} of {{ settings.space.total | fileSize:'0' }} used -->
+    <!-- <progressbar [value]="settings.space.used" [type]="spaceType" [max]="settings.space.total"></progressbar> -->
+  </div>
+</div>

@@ -1,0 +1,17 @@
+
+<div class="modal-body">
+  <div class="sign-container">
+      <span class="sign-hint" *ngIf="!hideHint">Please sign here</span>
+      <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+  </div>
+</div>
+<div class="modal-footer">
+
+  <button class="btn btn-outline" type="Clear" (click)="onClear()">Clear</button>
+  <button class="btn btn-outline" type="Back" (click)="onBack()">Back</button>
+  <button class="btn btn-primary" type="button" (click)="save()" [disabled]="isUploading">
+    <span *ngIf="!isUploading">Save</span>
+    <ai-loading class="sm inline white" *ngIf="isUploading"></ai-loading>
+  </button>
+
+</div>

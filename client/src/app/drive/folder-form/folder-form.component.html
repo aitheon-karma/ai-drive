@@ -1,0 +1,16 @@
+<form *ngIf="folderForm" novalidate [formGroup]="folderForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="show">Name</label>
+    <!-- <input type="text" placeholder="Enter name" class="form-control" formControlName="name"> -->
+    <div class="input-wrap input-wrap--contained input-wrap--small">
+      <input class="input-wrap__input" type="text" formControlName="name" placeholder="Enter name">
+    </div>
+    <small *ngIf="submitted && folderForm.get('name').hasError('required')" class="text-danger">
+      Name is required
+    </small>
+  </div>
+  <div class="modal-wrap__footer" style="flex-wrap: wrap;">
+    <button class="button button--contained button--medium ripple-effect" type="submit">Save</button>
+    <button class="button button--ghost button--medium ripple-effect ml--16" (click)="cancel()" type="button">Cancel</button>
+  </div>
+</form>

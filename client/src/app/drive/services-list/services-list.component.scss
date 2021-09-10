@@ -1,0 +1,88 @@
+.services-list {
+  &__folder-label {
+    margin-left: 8px;
+    max-width: 170px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__shared-folder {
+    margin-top: -5px;
+    width: 24px;
+    height: 24px;
+    background-image: url("/assets/img/shared-folder.svg");
+    background-size: contain;
+  }
+}
+
+.service-inner {
+  padding-left: 30px;
+}
+
+.service-icon {
+  font-size: 22px;
+  vertical-align: top;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: #8f8f8f;
+  position: absolute;
+  left: 14px;
+  top: 4px;
+}
+
+.caret-icon {
+  color: #6f6f6f;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.service-name {
+  position: relative;
+  user-select: none;
+  padding: 4px 4px 4px 27px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    cursor: pointer;
+    background: rgba(126, 126, 126, 0.15);
+  }
+}
+
+.folder-icon {
+  font-size: 22px;
+  vertical-align: top;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: #8f8f8f;
+}
+
+.service-loading {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
+}
+
+.folder-name {
+  position: relative;
+  user-select: none;
+  padding: 4px 4px 4px 14px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.folder.selected {
+  > .folder-name {
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.05);
+    > .folder-icon,
+    > .caret-icon {
+      color: #3197ee;
+    }
+  }
+}

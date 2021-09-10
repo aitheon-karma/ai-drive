@@ -1,0 +1,16 @@
+body { overflow-x: hidden; }
+
+.nav-breadcrumb { display: none; }
+
+.breadcrumb li.breadcrumb-item {
+  display: flex;
+  align-items: center;
+
+  &::before {
+    padding: 0 10px;
+  }
+
+  &:first-child::before {
+    padding-left: 0;
+  }
+}

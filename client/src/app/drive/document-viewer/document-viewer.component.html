@@ -1,0 +1,33 @@
+<div bsModal #viewerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-wrap modal-content">
+      <div class="modal-wrap__header">
+        <h4 class="modal-title pull-left">{{ document?.name }}</h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <div class="modal-wrap__body" *ngIf="document && previewUrl">
+        <div class="file-preview">
+          <div *ngIf="document.contentType.includes('image')">
+            <div class="text-center">
+              <img [src]="previewUrl" class="img-fluid" alt="">
+            </div>
+          </div>
+          <div *ngIf="document.contentType.includes('pdf')">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" [src]="previewUrl" frameborder="0"></iframe>
+            </div>
+          </div>
+          <div *ngIf="noViewSupport">
+            <span>Preview not supported. Please download it and view manually.</span>
+            <br/>
+            <br/>
+            <a class="btn btn-primary download-btn" [href]="previewUrl + '?download=true'" target="_blank">Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

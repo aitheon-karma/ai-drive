@@ -1,0 +1,142 @@
+.share-users {
+  position: relative;
+}
+
+.small-profile {
+  background-repeat: no-repeat;
+  width: 15px;
+  height: 15px;
+  background-size: cover;
+}
+
+.shareable-link-input[readonly] {
+  background: none !important;
+}
+
+.copy-btn {
+  box-shadow: none;
+  border: 1px solid #ced4da;
+}
+
+.tag-inner {
+  top: -2px;
+  position: relative;
+}
+
+.ng2-tag__remove-button {
+  position: relative;
+  top: 4px;
+}
+
+.org-selector {
+  width: calc(100% - 40px);
+  float: left;
+  height: 30px !important;
+  font-size: 14px;
+}
+
+span.org-selector {
+  line-height: 30px;
+  padding-left: 8px;
+}
+
+.btn-remove {
+  margin-left: 13px;
+}
+
+ngx-autocomplete ::ng-deep .completer-selected-row {
+  color: #fff;
+  background-color: #3197EE;
+}
+
+.share-list-item .col-6 {
+  display: flex;
+  align-items: center;
+}
+
+.modal-dialog {
+  max-width: 600px;
+}
+
+.user-pic-list {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+}
+
+::ng-deep {
+  .completer-holder {
+    height: 100%;
+    background-color: #1F1F1F;
+  }
+}
+
+.modal-wrap {
+  border-radius: 2px !important;
+}
+
+.modal-wrap__body {
+  max-height: none !important;
+}
+
+input {
+  outline: none;
+}
+
+.shareable-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.link-shared {
+  width: calc(100% - 3px);
+
+  .input-group {
+    flex-wrap: nowrap;
+  }
+
+  .input-wrap {
+    width: 100%;
+  }
+
+  .button--contained {
+    min-width: 74px;
+    justify-content: center;
+  }
+}
+
+::ng-deep {
+  div.compiler-image-holder {
+    width: 36px !important;
+    margin-right: 10px !important;
+    border-radius: 100% !important;
+    overflow: hidden;
+  }
+  img.completer-image {
+    width: 100% !important;
+  }
+  .input-wrap {
+    color: #7e7e7e;
+
+    .completer-dropdown-holder {
+      margin-top: 15px !important;
+
+      .completer-dropdown,
+      .completer-searching,
+      .completer-no-results,
+      .completer-row,
+      .completer-list-item-holder,
+      .completer-list-item,
+      .completer-selected-row {
+        width: 100% !important;
+      }
+
+      * {
+        background-color: #1F1F1F !important;
+        border: none !important;
+      }
+    }
+  }
+}

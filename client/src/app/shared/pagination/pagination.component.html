@@ -1,0 +1,28 @@
+<nav aria-label="Pagination">
+    <ul class="pagination pagination-sm" *ngIf="totalPages > 1">
+        <li class="page-item" (click)="selectPage(1, $event)" [class.disabled]="currentPage == 1">
+            <span href="" class="page-link" title="Go to first page">&laquo;</span>
+        </li>
+        <li class="page-item" (click)="selectPage(currentPage - 1, $event)" [class.disabled]="currentPage == 1">
+            <span href="" class="page-link" title="Go to previous page">Previous</span>
+        </li>
+        <li class="disabled page-item" (click)="cancelEvent($event)" *ngIf="(currentPage - range) > 1">
+            <span href="" class="page-link">...</span>
+        </li>
+        <li class="page-item" *ngFor="let page of pages | async" [class.active]="page == currentPage">
+            <span href="" class="page-link" (click)="selectPage(page, $event)">
+                {{page}}
+            </span>
+        </li>
+        <li class="disabled page-item" (click)="cancelEvent($event)" *ngIf="(currentPage + range) < totalPages">
+            <span href="" class="page-link">...</span>
+        </li>
+        <li class="page-item" (click)="selectPage(currentPage + 1, $event)" [class.disabled]="currentPage == totalPages">
+            <span href="" class="page-link" title="Go to next page">Next</span>
+        </li>
+        <li class="page-item" (click)="selectPage(totalPages, $event)" [class.disabled]="currentPage == totalPages">
+            <span href="" class="page-link" title="Go to last page">&raquo;</span>
+        </li>
+
+    </ul>
+</nav>

@@ -1,0 +1,20 @@
+<ai-header [serviceName]='serviceName'></ai-header>
+
+<nav *ngIf="authService.loggedIn | async" class="nav-breadcrumb" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/users">
+        <i class="fa fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active">
+      <i class="fa fa-hdd-o"></i> Drive</li>
+  </ol>
+</nav>
+
+<div class="container-lg-fluid">
+  <div class="row">
+    <main class="col-sm-12">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

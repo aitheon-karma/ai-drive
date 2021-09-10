@@ -1,0 +1,124 @@
+<div bsModal #formModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content modal-wrap">
+      <div class="modal-wrap__header">
+        <h5 class="modal-title pull-left">Share</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+
+      <div class="modal-wrap__body" *ngIf="!isLoading; else loadingView">
+        <div class="share-users ">
+          <ng2-completer class="input-wrap input-wrap--contained input-wrap--small"
+                         *ngIf="showSearch"
+                         #shareSearch
+                         [dataService]="dataRemote"
+                         [minSearchLength]="2"
+                         [placeholder]="'Add more people'"
+                         [clearSelected]="true"
+                         (selected)="onUserSelected($event)"
+                         (keydown)="onSearchKeydown($event)"
+                         [inputClass]="'input-wrap__input'"
+                         [openOnFocus]="true"
+                         [textNoResults]="false"
+                         [textSearching]="'Please wait...'">
+          </ng2-completer>
+          <!-- old input
+            <input type="email" *ngIf="!showSearch" placeholder="Add more people" class="form-control"
+            [(ngModel)]="userEmail" (keydown)="onUserEnterKeydown($event)"> -->
+            <!-- new input -->
+          <div class="input-wrap input-wrap--contained input-wrap--small" *ngIf="!showSearch">
+            <input class="input-wrap__input form-control" type="email" autocomplete="off" placeholder="Add more people" [(ngModel)]="userEmail" (keydown)="onUserEnterKeydown($event)">
+          </div>
+          <span class="text-danger" *ngIf="emailInvalid">Email address is not valid</span>
+        </div>
+        <div class="share-list mt--24">
+          <div class="share-list-item pt-2 pb-2" *ngFor="let item of shareList; index as index">
+            <div class="row">
+              <div class="col-10">
+                <span *ngIf="item._id && showUserName">
+                  <span *ngIf="item.isTeam"><span class="badge badge-warning" style="margin-right: 5px;">Team</span>
+                    {{ item.name }}</span>
+                  <span *ngIf="!item.isTeam"><img class="user-pic-list" [src]="item.profile.avatarUrl" />
+                    {{ item.profile.firstName }} {{ item.profile.lastName }}</span>
+                </span>
+                <span *ngIf="!showUserName">
+                  <i class="fa fa-envelope ml-2 mr-2 text-muted"></i> {{ item.email }}
+                </span>
+              </div>
+              <div class="col-2 d-flex justify-content-end">
+                <!-- {{ item.organization ? item.organization : 'Personal '}} -->
+                <!-- <span class="org-selector" *ngIf="item.organization?._id && item.initial">{{ item.organization?.name }}</span>
+                <span class="org-selector" *ngIf="!item.organization && item.initial">Personal</span>
+                <select class="form-control org-selector" *ngIf="!item.initial" [(ngModel)]="item.organization">
+                  <option value="">Personal</option>
+                  <option [value]="role.organization._id" *ngFor="let role of item.roles">{{ role.organization.name }}</option>
+                </select> -->
+                <!-- <button class="btn btn-outline text-danger btn-remove btn-sm pull-right"
+                  (click)="removeItem(item, index)">
+                  <i class="fa fa-times"></i>
+                </button> -->
+                <button class="icon icon--dynamic icon--cancel-circle-o" (click)="removeItem(item, index)" style="margin-top: 3px;"></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+        <!-- <div class="shareable-content mt-4">
+          <div class="checkbox mr--16">
+            <input class="checkbox__input" type="checkbox" id="shareableLink" [(ngModel)]="shareableLinkEnabled" tabindex="1">
+          </div> -->
+
+          <!-- was comment before <div class="switch switch--small mr-3">
+            <input id="shareableLink" [(ngModel)]="shareableLinkEnabled" class="cmn-toggle cmn-toggle-round"
+              type="checkbox">
+            <label for="shareableLink"></label>
+          </div> -->
+
+          <!-- <span class="service-name">Link sharing <small>(Anyone with the link can view)</small></span>
+
+          <div class="link-shared mt-3" *ngIf="shareableLinkEnabled">
+            <div class="input-group"> -->
+
+              <!-- was comment before <input type="text" [(ngModel)]="shareableLink" #copyTarget class="form-control shareable-link-input"
+                readonly> -->
+
+                <!-- <div class="input-wrap input-wrap--contained input-wrap--small">
+                    <input class="input-wrap__input" type="text" autocomplete="off" [(ngModel)]="shareableLink" #copyTarget readonly>
+                  </div>
+              <div class="input-group-append ml--16">
+                <button class="button button--contained button--medium" type="button" [ngxClipboard]="copyTarget"
+                  (cbOnSuccess)="copyOnSuccess()">{{ isCopied ? 'Copied' : 'Copy'}}</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
+
+
+      </div>
+
+      <div class="modal-wrap__footer">
+        <ai-loading *ngIf="submitting"></ai-loading>
+        <button *ngIf="!submitting" class="button button--ghost button--medium ripple-effect mr--16" (click)="cancel()"
+          type="button">Cancel</button>
+          <button *ngIf="!submitting" class="button button--medium button--contained ripple-effect" (click)="onSubmit()"
+          type="submit" [disabled]="isShareDisable">Share</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingView>
+  <div class="modal-body text-center p-5">
+    <ai-loading class="text-center inline"></ai-loading>
+  </div>
+</ng-template>

@@ -1,0 +1,22 @@
+<div bsModal #formModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-wrap modal-content">
+      <div class="modal-wrap__header">
+        <h4 class="modal-title pull-left">{{ data.headlineText || 'Confirm' }} </h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button class="modal-wrap__icon icon icon--dynamic icon--close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <div *ngIf="data" class="modal-wrap__body">
+        <div>
+          {{ data.text }}
+        </div>
+      </div>
+      <div class="modal-wrap__footer">
+        <button class="button button--medium button--contained mr--16" (click)="onConfirm()" type="button">{{ data.confirmText || 'Yes'}}</button>
+        <button [class.d-none]="data.hideNoButton" class="button button--medium button--outlined" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

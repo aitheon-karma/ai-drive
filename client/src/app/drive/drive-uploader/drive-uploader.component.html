@@ -1,0 +1,30 @@
+<ng-template [ngIf]="showUploaderResults == true">
+  <div class="drive-uploader-results animated fadeInRight">
+    <div class="results-header">
+      Uploading
+    </div>
+    <div class="documents">
+      <div class="drive-document" *ngFor="let item of uploader.queue">
+        <i style="font-style: normal" class="icon icon--file icon--white document-icon"></i>
+        <div class="document-name">
+          <span>{{ item?.file?.name }}</span>
+        </div>
+        <i *ngIf="item.isUploading"
+           style="font-style: normal"
+           class="icon icon--settings icon--size-16px fa-spin document-status-icon icon--gold"></i>
+        <i *ngIf="!item.isUploading && !item.isSuccess"
+           style="font-style: normal"
+           class="icon icon--clock icon--size-16px animated fadeInUp document-status-icon icon--gold"></i>
+        <i *ngIf="item.isSuccess"
+           style="font-style: normal"
+           class="icon icon--done-success icon--size-16px icon--gold animated fadeInUp document-status-icon"></i>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="drop-zone" *ngIf="driveUploaderService.dropZoneVisible" ng2FileDrop [ngClass]="{'file-over': isFileOver }" (fileOver)="fileOverBase($event)" [uploader]="uploader">
+  <h1>
+    <span class="icon icon--download icon--size-40px icon--gold mr--8"></span> Drop Zone
+  </h1>
+</div>

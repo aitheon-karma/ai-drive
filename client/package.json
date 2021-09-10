@@ -1,0 +1,35 @@
+{
+  "name": "ai-drive",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --aot",
+    "build:prod": "$(npm bin)/ng build --aot --prod --base-href /drive/ && npm run docs",
+    "watch": "ng build --watch=true --aot",
+    "test": "ng test",
+    "lint": "ng lint ai-drive --fix",
+    "e2e": "ng e2e",
+    "lib:watch": "$(npm bin)/ng build @aitheon/drive --watch",
+    "lib:version": "cd projects/aitheon/drive && npm version minor",
+    "lib:build": "$(npm bin)/ng build @aitheon/drive",
+    "lib:publish": "npm run lib:build && npm publish dist/aitheon/drive",
+    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./projects/",
+    "typedoc": "typedoc"
+  },
+  "private": true,
+  "dependencies": {
+    "@aitheon/core-client": "1.15.61",
+    "@aitheon/orchestrator": "0.5.0",
+    "ng2-dnd": "5.0.2",
+    "angular2-signaturepad": "2.8.0",
+    "ngx-clipboard": "10.0.0",
+    "ngx-contextmenu": "^5.0.3",
+    "ngx-chips": "1.8.0",
+    "ngx-toastr": "9.1.1",
+    "rxjs-compat": "^6.5.4"
+  },
+  "devDependencies": {
+    "@toverux/ngx-sweetalert2": "3.4.0"
+  }
+}

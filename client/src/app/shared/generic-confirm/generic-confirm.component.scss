@@ -1,0 +1,17 @@
+.modal-footer {
+    // position: absolute;
+    // bottom: 0;
+    // right: 0;
+    // left: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 12px 16px !important;
+    background-color: transparent;
+    background: transparent;
+    border-top: 1px solid #454545;
+}
+
+.btn {
+    font-size: 12px;
+}
